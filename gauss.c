@@ -28,7 +28,7 @@ void gaussBlur(int w, int h, unsigned char* img){
 	for (int y = 0; y < h; ++y) {
 	    if (x == 0) {
 	    }
-	    printf("PIXEL: %x ", img[x * h + y]);
+	    printf("PIXEL: %x ", img[y * w + x]);
 	}
     }
 
@@ -60,9 +60,23 @@ int main(int argc, char* argv[]) {
     // Process image data here
     gaussBlur(infoHeader.width, infoHeader.height, imageData);
 
+    FILE* output_file = fopen("output.bmp", "wb");
+    if (!output_file) {
+        printf("Unable to create output file.");
+        return 1;
+    }
+
+    // Write BMP header
+    fwrite(&header, sizeof(BMPHeader), 1, output_file);
+    fwrite(&infoHeader, sizeof(BMPInfoHeader), 1, output_file);
+
+    // Write modified image data
+    fwrite(imageData, 1, infoHeader.imageSize, output_file);
+
     // Clean up
     free(imageData);
     fclose(file);
+    fclose(output_file);
 
     return 0;
 }
