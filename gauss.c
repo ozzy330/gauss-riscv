@@ -28,7 +28,7 @@ void gaussBlur(int w, int h, unsigned char* img){
 	for (int y = 0; y < h; ++y) {
 	    if (x == 0) {
 	    }
-	    printf("PIXEL: %x ", img[y * w + x]);
+	    // printf("PIXEL: %x ", img[y * w + x]);
 	}
     }
 
